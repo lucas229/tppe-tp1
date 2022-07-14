@@ -22,4 +22,9 @@ public class CadastroHoraCheiaTest {
         assertEquals(144, estacionamento.cadastrarAcesso("HI139", "8:30", "10:30"), 0.01);
     }
 
+    @Test
+    public void testCadastroTresHorasCheias() {
+        assertEquals(216, estacionamento.cadastrarAcesso("HI139", "8:30", "11:30"), 0.01);
+    }
+
 }

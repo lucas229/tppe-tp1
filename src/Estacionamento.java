@@ -33,11 +33,10 @@ public class Estacionamento {
     }
 
     public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) {
-        if(horaEntrada.equals("8:30") && horaSaida.equals("9:30")){
-            return 4 * 20 * (1 - 0.1f);
-        } else {
-            return 8 * 20 * (1 - 0.1f);
-        }
-    }
+        int minutosEntrada = Integer.parseInt(horaEntrada.split(":")[0]) * 60 + Integer.parseInt(horaEntrada.split(":")[1]);
+        int minutosSaida = Integer.parseInt(horaSaida.split(":")[0]) * 60 + Integer.parseInt(horaSaida.split(":")[1]);
+        int fracoes = (minutosSaida - minutosEntrada) / 15;
 
+        return fracoes * valorFracao * (1 - (valorHoraCheia / 100));
+    }
 }
