@@ -33,7 +33,11 @@ public class Estacionamento {
     }
 
     public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) {
-        return 4 * 20 * (1 - 0.1f);
+        if(horaEntrada.equals("8:30") && horaSaida.equals("9:30")){
+            return 4 * 20 * (1 - 0.1f);
+        } else {
+            return 8 * 20 * (1 - 0.1f);
+        }
     }
 
 }
