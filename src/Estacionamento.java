@@ -37,10 +37,11 @@ public class Estacionamento {
         int minutosSaida = Integer.parseInt(horaSaida.split(":")[0]) * 60 + Integer.parseInt(horaSaida.split(":")[1]);
         int fracoes = (minutosSaida - minutosEntrada) / 15;
         
-        if(minutosEntrada >= 21 * 60) {
-            return 70 * 30 / 100;
-        } else if(minutosEntrada >= 19 * 60) {
-            return 120 * 45 / 100;
+        int minutosInicioNoturna = Integer.parseInt(inicioDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(inicioDiariaNoturna.split(":")[1]);
+        int minutosFimNoturna = Integer.parseInt(fimDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(fimDiariaNoturna.split(":")[1]);
+
+        if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= 23 * 60 + 59 || minutosSaida <= minutosFimNoturna)) {
+            return valorDiariaDiurna * valorDiariaNoturna / 100;
         }
     
         return fracoes * valorFracao * (1 - (valorHoraCheia / 100));
