@@ -11,7 +11,6 @@ public class Estacionamento {
     private String inicioFuncionamento, fimFuncionamento;
     private int capacidade;
     private float retornoContratante;
-    private Acesso acesso;
 
     public Estacionamento(String nome, float valorFracao, float valorHoraCheia, float valorDiariaDiurna,
         float valorDiariaNoturna, String inicioDiariaNoturna, String fimDiariaNoturna,
@@ -31,6 +30,10 @@ public class Estacionamento {
             this.fimFuncionamento = fimFuncionamento;
             this.capacidade = capacidade;
             this.retornoContratante = retornoContratante;
+    }
+
+    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) {
+        return 4 * 20 * (1 - 0.1f);
     }
 
 }
