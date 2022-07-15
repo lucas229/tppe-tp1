@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Estacionamento {
 
     private String nome;
@@ -11,6 +13,7 @@ public class Estacionamento {
     private String inicioFuncionamento, fimFuncionamento;
     private int capacidade;
     private float retornoContratante;
+    private ArrayList<String> mensalistas;
 
     public Estacionamento(String nome, float valorFracao, float valorHoraCheia, float valorDiariaDiurna,
         float valorDiariaNoturna, String inicioDiariaNoturna, String fimDiariaNoturna,
@@ -30,6 +33,7 @@ public class Estacionamento {
             this.fimFuncionamento = fimFuncionamento;
             this.capacidade = capacidade;
             this.retornoContratante = retornoContratante;
+            mensalistas = new ArrayList<>();
     }
 
     public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) {
@@ -40,6 +44,11 @@ public class Estacionamento {
         
         int minutosInicioNoturna = Integer.parseInt(inicioDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(inicioDiariaNoturna.split(":")[1]);
         int minutosFimNoturna = Integer.parseInt(fimDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(fimDiariaNoturna.split(":")[1]);
+
+        // Mensalista
+        if(mensalistas.contains(placa)) {
+            return valorAcessoMensalista;
+        }
 
         // Noturno
         if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= 23 * 60 + 59 || minutosSaida <= minutosFimNoturna)) {
@@ -62,5 +71,9 @@ public class Estacionamento {
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
         return valorAcessoEvento;
+    }
+
+    public void cadastrarMensalista(String placa){
+        mensalistas.add(placa);
     }
 }

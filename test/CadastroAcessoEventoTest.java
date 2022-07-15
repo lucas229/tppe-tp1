@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -39,6 +40,7 @@ public class CadastroAcessoEventoTest {
 	}
 
     @Test
+	@Category(TesteFuncional.class)
     public void testCadastroEvento() {
         assertEquals(resultado, estacionamento.cadastrarAcessoEvento(placa, horaEntrada, horaSaida), 0.01);
     }
