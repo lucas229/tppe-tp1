@@ -65,8 +65,16 @@ public class Estacionamento {
             return valorDiariaDiurna;
         }
 
+        // fração de tempo
+        float valorDeAcesso = (fracoes % 4) * valorFracao;
+        
         // hora cheia
-        return fracoes * valorFracao * (1 - (valorHoraCheia / 100));
+        if(fracoes > 3){
+            int horasCheias = fracoes / 4; 
+            valorDeAcesso =  valorDeAcesso + horasCheias * 4 * valorFracao * (1 - (valorHoraCheia / 100));
+        }
+        
+        return valorDeAcesso;
     }
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
