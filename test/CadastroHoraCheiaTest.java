@@ -31,7 +31,7 @@ public class CadastroHoraCheiaTest {
 	}
 
     @Before
-    public void setup() {
+    public void setup() throws DescricaoEmBrancoException, ValorAcessoInvalidoException {
         estacionamento = new Estacionamento("Estac. 2", 20, 10, 70, 30, "21:00", "7:00", 455, 60, "0:00", "23:59", 120, 60);
     }
 

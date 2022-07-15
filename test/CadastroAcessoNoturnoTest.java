@@ -20,7 +20,7 @@ public class CadastroAcessoNoturnoTest {
     private float resultado;
 
 	@Parameters
-	public static List<Object[]> getParameters() {
+	public static List<Object[]> getParameters() throws DescricaoEmBrancoException, ValorAcessoInvalidoException {
         Estacionamento estacionamento1 = new Estacionamento("Estac. 1", 30, 15, 120, 45, "19:00", "8:00", 600, 50, "6:00", "22:00", 300, 50);
         Estacionamento estacionamento2 = new Estacionamento("Estac. 2", 20, 10, 70, 30, "21:00", "9:00", 455, 60, "0:00", "23:59", 120, 60);
         Estacionamento estacionamento3 = new Estacionamento("Estac. 3", 10, 0, 50, 40, "20:00", "8:00", 350, 40, "6:00", "22:00", 600, 70);

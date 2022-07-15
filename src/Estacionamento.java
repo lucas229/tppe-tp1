@@ -19,7 +19,35 @@ public class Estacionamento {
         float valorDiariaNoturna, String inicioDiariaNoturna, String fimDiariaNoturna,
         float valorAcessoMensalista, float valorAcessoEvento,
         String inicioFuncionamento, String fimFuncionamento,
-        int capacidade, float retornoContratante) {
+        int capacidade, float retornoContratante) throws DescricaoEmBrancoException, ValorAcessoInvalidoException {
+            if(nome.isEmpty()){
+                throw new DescricaoEmBrancoException("nome");
+            } else if(valorFracao < 0){
+                throw new ValorAcessoInvalidoException("fração de tempo");
+            } else if(valorHoraCheia < 0 || valorHoraCheia > 100){
+                throw new ValorAcessoInvalidoException("valor hora cheia");
+            } else if(valorDiariaDiurna < 0){
+                throw new ValorAcessoInvalidoException("valor diária diurna");
+            } else if(valorDiariaNoturna < 0 || valorDiariaNoturna > 100){
+                throw new ValorAcessoInvalidoException("valor diária noturna");
+            }  else if(inicioDiariaNoturna.isEmpty()){
+                throw new DescricaoEmBrancoException("Inicio da diária noturna");
+            } else if(fimDiariaNoturna.isEmpty()){
+                throw new DescricaoEmBrancoException("Fim da diária noturna");
+            } else if(valorAcessoMensalista < 0){
+                throw new ValorAcessoInvalidoException("valor acesso mensalista");
+            } else if(valorAcessoEvento < 0){
+                throw new ValorAcessoInvalidoException("valor acesso por evento");
+            } else if(inicioFuncionamento.isEmpty()){
+                throw new DescricaoEmBrancoException("Início do funcionamento");   
+            } else if(fimFuncionamento.isEmpty()){
+                throw new DescricaoEmBrancoException("Fim do funcionamento");   
+            } else if( capacidade < 0){
+                throw new ValorAcessoInvalidoException("capacidade");
+            } else if(retornoContratante < 0 || retornoContratante > 100){
+                throw new ValorAcessoInvalidoException("valor de retorno contratante");
+            }   
+
             this.nome = nome;
             this.valorFracao = valorFracao;
             this.valorHoraCheia = valorHoraCheia;
