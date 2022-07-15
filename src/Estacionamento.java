@@ -46,4 +46,8 @@ public class Estacionamento {
     
         return fracoes * valorFracao * (1 - (valorHoraCheia / 100));
     }
+
+    public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
+        return valorAcessoEvento;
+    }
 }
