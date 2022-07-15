@@ -9,8 +9,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class CadastroAcessoEventoTest {
-    
+public class CadastroAcessoDiurnoTest {
     private Estacionamento estacionamento; 
     private String placa;
     private String horaEntrada, horaSaida;
@@ -22,15 +21,15 @@ public class CadastroAcessoEventoTest {
         Estacionamento estacionamento2 = new Estacionamento("Estac. 2", 20, 10, 70, 30, "21:00", "9:00", 455, 60, "0:00", "23:59", 120, 60);
         Estacionamento estacionamento3 = new Estacionamento("Estac. 3", 10, 0, 50, 40, "20:00", "8:00", 350, 40, "6:00", "22:00", 600, 70);
 		Object[][] parameters = new Object[][] {
-			{"ABC123", "19:00", "19:30", estacionamento1, 50},
-			{"DEF456", "21:00", "9:00", estacionamento2, 60},
-			{"ZXC374", "17:00", "20:00", estacionamento3, 40}
+			{"ABC123", "12:00", "21:01", estacionamento1, 120},
+			{"DEF456", "17:00", "9:00", estacionamento2, 70},
+			{"ZXC374", "00:00", "15:00", estacionamento3, 50}
 		};
 
 		return Arrays.asList(parameters);
 	}
     
-    public CadastroAcessoEventoTest(String placa, String horaEntrada, String horaSaida, Estacionamento estacionamento, float resultado) {
+    public CadastroAcessoDiurnoTest(String placa, String horaEntrada, String horaSaida, Estacionamento estacionamento, float resultado) {
 		this.placa = placa;
 		this.horaEntrada = horaEntrada;
 		this.horaSaida = horaSaida;
@@ -39,8 +38,7 @@ public class CadastroAcessoEventoTest {
 	}
 
     @Test
-    public void testCadastroEvento() {
-        assertEquals(resultado, estacionamento.cadastrarAcessoEvento(placa, horaEntrada, horaSaida), 0.01);
+    public void testCadastroDiurno() {
+        assertEquals(resultado, estacionamento.cadastrarAcesso(placa, horaEntrada, horaSaida), 0.01);
     }
-
 }
