@@ -36,7 +36,16 @@ public class Estacionamento {
             mensalistas = new ArrayList<>();
     }
 
-    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) {
+    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException {
+        
+        if(placa.isEmpty()){
+            throw new DescricaoEmBrancoException("placa");
+        } else if(horaEntrada.isEmpty()){
+            throw new DescricaoEmBrancoException("hora de entrada");
+        } else if(horaSaida.isEmpty()){
+            throw new DescricaoEmBrancoException("hora de saída");
+        }
+        
         int minutosEntrada = Integer.parseInt(horaEntrada.split(":")[0]) * 60 + Integer.parseInt(horaEntrada.split(":")[1]);
         int minutosSaida = Integer.parseInt(horaSaida.split(":")[0]) * 60 + Integer.parseInt(horaSaida.split(":")[1]);
         int fracoes = (minutosSaida - minutosEntrada) / 15;
