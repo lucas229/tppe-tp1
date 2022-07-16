@@ -15,6 +15,7 @@ public class Estacionamento {
     private float retornoContratante;
     private ArrayList<String> mensalistas;
     private int numeroAcessos;
+    private float valorApurado;
 
     public Estacionamento(String nome, float valorFracao, float valorHoraCheia, float valorDiariaDiurna,
         float valorDiariaNoturna, String inicioDiariaNoturna, String fimDiariaNoturna,
@@ -95,11 +96,13 @@ public class Estacionamento {
 
         // Mensalista
         if(mensalistas.contains(placa)) {
+            valorApurado += valorAcessoMensalista;
             return valorAcessoMensalista;
         }
 
         // Noturno
         if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= 23 * 60 + 59 || minutosSaida <= minutosFimNoturna)) {
+            valorApurado += valorDiariaDiurna * valorDiariaNoturna / 100;
             return valorDiariaDiurna * valorDiariaNoturna / 100;
         }
         // Diária diurna
@@ -110,6 +113,7 @@ public class Estacionamento {
         }
 
         if(totalMinutos > 9*60){
+            valorApurado += valorDiariaDiurna;
             return valorDiariaDiurna;
         }
 
@@ -122,23 +126,24 @@ public class Estacionamento {
             valorDeAcesso =  valorDeAcesso + horasCheias * 4 * valorFracao * (1 - (valorHoraCheia / 100));
         }
         
+        valorApurado += valorDeAcesso;
         return valorDeAcesso;
     }
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
         numeroAcessos++;
+        valorApurado += valorAcessoEvento;
         return valorAcessoEvento;
     }
 
     public void cadastrarMensalista(String placa){
+        numeroAcessos++;
+        valorApurado += valorAcessoMensalista;
         mensalistas.add(placa);
     }
 
 	public float getValorApurado() {
-		if(numeroAcessos == 1) {
-            return 60 * 0.6f;
-        } else {
-            return (60 + 70) * 0.6f;
-        }
+		return valorApurado * retornoContratante/100;
 	}
+        
 }

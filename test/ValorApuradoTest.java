@@ -25,4 +25,12 @@ public class ValorApuradoTest {
         assertEquals(78, estacionamento.getValorApurado(), 0.01);
     }
 
+    @Test()
+    public void testValorApuradoTresAcessos() throws DescricaoEmBrancoException, HorarioInvalidoException {
+        estacionamento.cadastrarAcessoEvento("AFG123", "8:00", "9:00");
+        estacionamento.cadastrarAcesso("AUI123", "10:00", "19:15");
+        estacionamento.cadastrarAcesso("LLL123", "10:00", "10:46");
+        assertEquals(114, estacionamento.getValorApurado(), 0.01);
+    }
+
 }
