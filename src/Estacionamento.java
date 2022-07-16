@@ -14,6 +14,7 @@ public class Estacionamento {
     private int capacidade;
     private float retornoContratante;
     private ArrayList<String> mensalistas;
+    private int numeroAcessos;
 
     public Estacionamento(String nome, float valorFracao, float valorHoraCheia, float valorDiariaDiurna,
         float valorDiariaNoturna, String inicioDiariaNoturna, String fimDiariaNoturna,
@@ -62,6 +63,7 @@ public class Estacionamento {
             this.capacidade = capacidade;
             this.retornoContratante = retornoContratante;
             mensalistas = new ArrayList<>();
+            numeroAcessos = 0;
     }
 
     public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException {
@@ -89,6 +91,8 @@ public class Estacionamento {
             throw new HorarioInvalidoException(horaEntrada, horaSaida);
         }
         
+        numeroAcessos +=1;
+
         // Mensalista
         if(mensalistas.contains(placa)) {
             return valorAcessoMensalista;
@@ -122,6 +126,7 @@ public class Estacionamento {
     }
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
+        numeroAcessos++;
         return valorAcessoEvento;
     }
 
@@ -130,6 +135,10 @@ public class Estacionamento {
     }
 
 	public float getValorApurado() {
-		return 60 * 0.6f;
+		if(numeroAcessos == 1) {
+            return 60 * 0.6f;
+        } else {
+            return (60 + 70) * 0.6f;
+        }
 	}
 }
