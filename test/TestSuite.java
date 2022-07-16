@@ -1,6 +1,9 @@
+import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+@RunWith(Categories.class)
+@Categories.IncludeCategory({TesteExcecao.class, TesteFuncional.class})
 @Suite.SuiteClasses({
    CadastroAcessoDiurnoTest.class,
    CadastroAcessoEventoTest.class,
@@ -11,8 +14,6 @@ import org.junit.runners.Suite;
    CadastroEstacionamentoExceptionTest.class,
    CadastroHoraCheiaTest.class
 })
-
-@RunWith(Suite.class)
 public class TestSuite {
 
 }

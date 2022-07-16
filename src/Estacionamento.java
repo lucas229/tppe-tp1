@@ -64,7 +64,7 @@ public class Estacionamento {
             mensalistas = new ArrayList<>();
     }
 
-    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException {
+    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException {
         
         if(placa.isEmpty()){
             throw new DescricaoEmBrancoException("placa");
@@ -82,6 +82,13 @@ public class Estacionamento {
         int minutosInicioNoturna = Integer.parseInt(inicioDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(inicioDiariaNoturna.split(":")[1]);
         int minutosFimNoturna = Integer.parseInt(fimDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(fimDiariaNoturna.split(":")[1]);
 
+        int minutosInicioFuncionamento = Integer.parseInt(inicioFuncionamento.split(":")[0]) * 60 + Integer.parseInt(inicioFuncionamento.split(":")[1]);
+        int minutosFimFuncionamento = Integer.parseInt(fimFuncionamento.split(":")[0]) * 60 + Integer.parseInt(fimFuncionamento.split(":")[1]);
+
+        if(minutosEntrada < minutosInicioFuncionamento || minutosSaida > minutosFimFuncionamento) {
+            throw new HorarioInvalidoException(horaEntrada, horaSaida);
+        }
+        
         // Mensalista
         if(mensalistas.contains(placa)) {
             return valorAcessoMensalista;

@@ -23,7 +23,7 @@ public class CadastroAcessoNoturnoTest {
 	public static List<Object[]> getParameters() throws DescricaoEmBrancoException, ValorAcessoInvalidoException {
         Estacionamento estacionamento1 = new Estacionamento("Estac. 1", 30, 15, 120, 45, "19:00", "8:00", 600, 50, "6:00", "22:00", 300, 50);
         Estacionamento estacionamento2 = new Estacionamento("Estac. 2", 20, 10, 70, 30, "21:00", "9:00", 455, 60, "0:00", "23:59", 120, 60);
-        Estacionamento estacionamento3 = new Estacionamento("Estac. 3", 10, 0, 50, 40, "20:00", "8:00", 350, 40, "6:00", "22:00", 600, 70);
+        Estacionamento estacionamento3 = new Estacionamento("Estac. 3", 10, 0, 50, 40, "20:00", "8:00", 350, 40, "6:00", "23:59", 600, 70);
 		Object[][] parameters = new Object[][] {
 			{"ABC123", "19:00", "19:30", estacionamento1, 54},
 			{"DEF456", "21:00", "9:00", estacionamento2, 21},
@@ -43,7 +43,7 @@ public class CadastroAcessoNoturnoTest {
 
     @Test
     @Category(TesteFuncional.class)
-    public void testCadastroAcessoNoturno() throws DescricaoEmBrancoException {
+    public void testCadastroAcessoNoturno() throws DescricaoEmBrancoException, HorarioInvalidoException {
         assertEquals(resultado, estacionamento.cadastrarAcesso(placa, horaEntrada, horaSaida), 0.01);
     }
 
