@@ -41,7 +41,7 @@ public class CadastroAcessoEventoTest {
 
     @Test
 	@Category(TesteFuncional.class)
-    public void testCadastroEvento() {
+    public void testCadastroEvento() throws CapacidadeException, DescricaoEmBrancoException {
         assertEquals(resultado, estacionamento.cadastrarAcessoEvento(placa, horaEntrada, horaSaida), 0.01);
     }
 

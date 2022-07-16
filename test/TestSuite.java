@@ -12,7 +12,9 @@ import org.junit.runners.Suite;
    CadastroAcessoMensalistaTest.class,
    CadastroAcessoNoturnoTest.class,
    CadastroEstacionamentoExceptionTest.class,
-   CadastroHoraCheiaTest.class
+   CadastroHoraCheiaTest.class,
+   CapacidadeExceptionTest.class,
+   ValorApuradoTest.class
 })
 public class TestSuite {
 

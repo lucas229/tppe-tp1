@@ -43,7 +43,7 @@ public class CadastroAcessoNoturnoTest {
 
     @Test
     @Category(TesteFuncional.class)
-    public void testCadastroAcessoNoturno() throws DescricaoEmBrancoException, HorarioInvalidoException {
+    public void testCadastroAcessoNoturno() throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
         assertEquals(resultado, estacionamento.cadastrarAcesso(placa, horaEntrada, horaSaida), 0.01);
     }
 

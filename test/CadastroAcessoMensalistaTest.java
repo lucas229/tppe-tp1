@@ -40,7 +40,7 @@ public class CadastroAcessoMensalistaTest {
 
     @Test
 	@Category(TesteFuncional.class)
-    public void testCadastroMensalista() throws DescricaoEmBrancoException, HorarioInvalidoException {
+    public void testCadastroMensalista() throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
 		estacionamento.cadastrarMensalista(placa);
         assertEquals(resultado, estacionamento.cadastrarAcesso(placa, horaEntrada, horaSaida), 0.01);
     }   

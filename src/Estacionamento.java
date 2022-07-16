@@ -67,7 +67,7 @@ public class Estacionamento {
             numeroAcessos = 0;
     }
 
-    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException {
+    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
         
         if(placa.isEmpty()){
             throw new DescricaoEmBrancoException("placa");
@@ -75,6 +75,10 @@ public class Estacionamento {
             throw new DescricaoEmBrancoException("hora de entrada");
         } else if(horaSaida.isEmpty()){
             throw new DescricaoEmBrancoException("hora de saída");
+        }
+        
+        if(numeroAcessos == capacidade){
+            throw new CapacidadeException(capacidade);
         }
         
         int minutosEntrada = Integer.parseInt(horaEntrada.split(":")[0]) * 60 + Integer.parseInt(horaEntrada.split(":")[1]);
@@ -130,7 +134,18 @@ public class Estacionamento {
         return valorDeAcesso;
     }
 
-    public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) {
+    public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) throws CapacidadeException, DescricaoEmBrancoException {
+        if(placa.isEmpty()){
+            throw new DescricaoEmBrancoException("placa");
+        } else if(horaEntrada.isEmpty()){
+            throw new DescricaoEmBrancoException("hora de entrada");
+        } else if(horaSaida.isEmpty()){
+            throw new DescricaoEmBrancoException("hora de saída");
+        }
+        
+        if(numeroAcessos == capacidade){
+            throw new CapacidadeException(capacidade);
+        }
         numeroAcessos++;
         valorApurado += valorAcessoEvento;
         return valorAcessoEvento;

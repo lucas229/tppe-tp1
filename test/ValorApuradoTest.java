@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -54,7 +55,8 @@ public class ValorApuradoTest {
 
 
     @Test()
-    public void testValorApurado() throws DescricaoEmBrancoException, HorarioInvalidoException {
+    @Category(TesteFuncional.class)
+    public void testValorApurado() throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
         int count = 0;
         for(Object[] acesso : acessos) {
             String placa = String.valueOf(acesso[0]);

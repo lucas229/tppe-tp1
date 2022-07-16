@@ -37,7 +37,7 @@ public class CadastroAcessoHorarioExceptionTest {
 
     @Test(expected = HorarioInvalidoException.class)
     @Category(TesteExcecao.class)
-    public void testCadastroAcessoHorarioException() throws DescricaoEmBrancoException, HorarioInvalidoException {
+    public void testCadastroAcessoHorarioException() throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
         estacionamento.cadastrarAcesso(placa, horaEntrada, horaSaida);
     }
 }
