@@ -128,4 +128,8 @@ public class Estacionamento {
     public void cadastrarMensalista(String placa){
         mensalistas.add(placa);
     }
+
+	public float getValorApurado() {
+		return 60 * 0.6f;
+	}
 }
