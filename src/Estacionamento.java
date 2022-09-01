@@ -66,9 +66,21 @@ public class Estacionamento {
             mensalistas = new ArrayList<>();
             numeroAcessos = 0;
     }
-
-    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
+    
+    private void validarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, CapacidadeException, HorarioInvalidoException {
+        validarCadastro(placa, horaEntrada, horaSaida);
         
+        validarCapacidade();
+
+        int minutosEntrada = calcularMinutos(horaEntrada);
+        int minutosSaida = calcularMinutos(horaSaida);
+
+        validarHorario(minutosEntrada, minutosSaida, horaEntrada, horaSaida);
+
+        numeroAcessos +=1;
+    }
+
+    private void validarCadastro(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException {
         if(placa.isEmpty()){
             throw new DescricaoEmBrancoException("placa");
         } else if(horaEntrada.isEmpty()){
@@ -76,40 +88,58 @@ public class Estacionamento {
         } else if(horaSaida.isEmpty()){
             throw new DescricaoEmBrancoException("hora de saída");
         }
+    }
+
+
+    private void validarCapacidade() throws CapacidadeException {
         
-        if(numeroAcessos == capacidade){
+        if(numeroAcessos == capacidade) {
             throw new CapacidadeException(capacidade);
         }
-        
-        int minutosEntrada = Integer.parseInt(horaEntrada.split(":")[0]) * 60 + Integer.parseInt(horaEntrada.split(":")[1]);
-        int minutosSaida = Integer.parseInt(horaSaida.split(":")[0]) * 60 + Integer.parseInt(horaSaida.split(":")[1]);
-        int fracoes = (minutosSaida - minutosEntrada) / 15;
-        int totalMinutos;
-        
-        int minutosInicioNoturna = Integer.parseInt(inicioDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(inicioDiariaNoturna.split(":")[1]);
-        int minutosFimNoturna = Integer.parseInt(fimDiariaNoturna.split(":")[0]) * 60 + Integer.parseInt(fimDiariaNoturna.split(":")[1]);
+    }
 
-        int minutosInicioFuncionamento = Integer.parseInt(inicioFuncionamento.split(":")[0]) * 60 + Integer.parseInt(inicioFuncionamento.split(":")[1]);
-        int minutosFimFuncionamento = Integer.parseInt(fimFuncionamento.split(":")[0]) * 60 + Integer.parseInt(fimFuncionamento.split(":")[1]);
+    private void validarHorario(int minutosEntrada, int minutosSaida, String horaEntrada, String horaSaida) throws HorarioInvalidoException {
+
+        int minutosInicioFuncionamento = calcularMinutos(inicioFuncionamento);
+        int minutosFimFuncionamento = calcularMinutos(fimFuncionamento);
 
         if(minutosEntrada < minutosInicioFuncionamento || minutosSaida > minutosFimFuncionamento) {
             throw new HorarioInvalidoException(horaEntrada, horaSaida);
         }
-        
-        numeroAcessos +=1;
 
-        // Mensalista
+    }
+
+    private int calcularMinutos(String hora) {
+        return Integer.parseInt(hora.split(":")[0]) * 60 + Integer.parseInt(hora.split(":")[1]);
+    }
+
+    private int calcularFracoes(int minutosEntrada, int minutosSaida) {
+        return (minutosSaida - minutosEntrada) / 15;
+    }
+
+    private boolean checarMensalista(String placa) {
         if(mensalistas.contains(placa)) {
             valorApurado += valorAcessoMensalista;
-            return valorAcessoMensalista;
+            return true;
         }
+        return false;
+    }
 
-        // Noturno
+    private boolean checarAcessoNoturno(int minutosEntrada, int minutosSaida) {
+        int minutosInicioNoturna = calcularMinutos(inicioDiariaNoturna);
+        int minutosFimNoturna = calcularMinutos(fimDiariaNoturna);
+
         if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= 23 * 60 + 59 || minutosSaida <= minutosFimNoturna)) {
             valorApurado += valorDiariaDiurna * valorDiariaNoturna / 100;
-            return valorDiariaDiurna * valorDiariaNoturna / 100;
+            return true;
         }
-        // Diária diurna
+
+        return false; 
+    }
+
+    private boolean checarAcessoDiurno(int minutosEntrada, int minutosSaida ) {
+        int totalMinutos;
+
         if(minutosSaida < minutosEntrada) {
             totalMinutos = minutosSaida + ((23 * 60 + 59) - minutosEntrada);
         } else {
@@ -118,20 +148,52 @@ public class Estacionamento {
 
         if(totalMinutos > 9*60){
             valorApurado += valorDiariaDiurna;
-            return valorDiariaDiurna;
+            return true;
         }
 
-        // fração de tempo
-        float valorDeAcesso = (fracoes % 4) * valorFracao;
+        return false;
+    }
+
+    private float calcularValorAcessoNoturno() {
+        return valorDiariaDiurna * valorDiariaNoturna / 100;
+    }
+
+    private float calcularValorFracaoTempo(int fracoes) {
+        return (fracoes % 4) * valorFracao;
+    }
+
+    private float cadastrarAcessoFracao(int minutosEntrada, int minutosSaida) {
+        int fracoes = calcularFracoes(minutosEntrada, minutosSaida);
+        float valorDeAcesso = calcularValorFracaoTempo(fracoes);
         
-        // hora cheia
         if(fracoes > 3){
             int horasCheias = fracoes / 4; 
             valorDeAcesso =  valorDeAcesso + horasCheias * 4 * valorFracao * (1 - (valorHoraCheia / 100));
         }
-        
+
         valorApurado += valorDeAcesso;
         return valorDeAcesso;
+    }
+
+    public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
+        validarAcesso(placa, horaEntrada, horaSaida);
+
+        int minutosEntrada = calcularMinutos(horaEntrada);
+        int minutosSaida = calcularMinutos(horaSaida);
+        
+        if(checarMensalista(placa)) {
+            return valorAcessoMensalista;
+        }
+
+        if(checarAcessoNoturno(minutosEntrada, minutosSaida)) {
+            return calcularValorAcessoNoturno();
+        }
+
+        if(checarAcessoDiurno(minutosEntrada, minutosSaida)) {
+            return valorDiariaDiurna;
+        }
+
+        return cadastrarAcessoFracao(minutosEntrada, minutosSaida);
     }
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) throws CapacidadeException, DescricaoEmBrancoException {
