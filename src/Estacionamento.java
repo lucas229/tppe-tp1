@@ -2,6 +2,14 @@ import java.util.ArrayList;
 
 public class Estacionamento {
 
+    static final int MINUTOS_HORA = 60;
+    static final int MINUTOS_ULTIMA_HORA = 59;
+    static final int MINUTOS_FRACAO = 15;
+    static final int FRACOES_HORA = 4;
+    static final int TERCO_HORA = 3;
+    static final int HORAS_DIA = 23;
+    static final int TEMPO_DIARIA_DIURNA = 9;
+
     private String nome;
     private float valorFracao;
     private float valorHoraCheia;
@@ -110,11 +118,11 @@ public class Estacionamento {
     }
 
     public int calcularMinutos(String hora) {
-        return Integer.parseInt(hora.split(":")[0]) * 60 + Integer.parseInt(hora.split(":")[1]);
+        return Integer.parseInt(hora.split(":")[0]) * MINUTOS_HORA + Integer.parseInt(hora.split(":")[1]);
     }
 
     private int calcularFracoes(int minutosEntrada, int minutosSaida) {
-        return (minutosSaida - minutosEntrada) / 15;
+        return (minutosSaida - minutosEntrada) / MINUTOS_FRACAO;
     }
 
     public boolean checarMensalista(String placa) {
@@ -129,7 +137,7 @@ public class Estacionamento {
         int minutosInicioNoturna = calcularMinutos(inicioDiariaNoturna);
         int minutosFimNoturna = calcularMinutos(fimDiariaNoturna);
 
-        if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= 23 * 60 + 59 || minutosSaida <= minutosFimNoturna)) {
+        if(minutosEntrada >= minutosInicioNoturna && (minutosSaida <= HORAS_DIA * MINUTOS_HORA + MINUTOS_ULTIMA_HORA || minutosSaida <= minutosFimNoturna)) {
             valorApurado += valorDiariaDiurna * valorDiariaNoturna / 100;
             return true;
         }
@@ -141,12 +149,12 @@ public class Estacionamento {
         int totalMinutos;
 
         if(minutosSaida < minutosEntrada) {
-            totalMinutos = minutosSaida + ((23 * 60 + 59) - minutosEntrada);
+            totalMinutos = minutosSaida + ((HORAS_DIA * MINUTOS_HORA + MINUTOS_ULTIMA_HORA) - minutosEntrada);
         } else {
             totalMinutos = minutosSaida - minutosEntrada;
         }
 
-        if(totalMinutos > 9*60){
+        if(totalMinutos > TEMPO_DIARIA_DIURNA*MINUTOS_HORA){
             valorApurado += valorDiariaDiurna;
             return true;
         }
@@ -159,16 +167,16 @@ public class Estacionamento {
     }
 
     private float calcularValorFracaoTempo(int fracoes) {
-        return (fracoes % 4) * valorFracao;
+        return (fracoes % FRACOES_HORA) * valorFracao;
     }
 
     public float cadastrarAcessoFracao(int minutosEntrada, int minutosSaida) {
         int fracoes = calcularFracoes(minutosEntrada, minutosSaida);
         float valorDeAcesso = calcularValorFracaoTempo(fracoes);
         
-        if(fracoes > 3){
-            int horasCheias = fracoes / 4; 
-            valorDeAcesso =  valorDeAcesso + horasCheias * 4 * valorFracao * (1 - (valorHoraCheia / 100));
+        if(fracoes > TERCO_HORA){
+            int horasCheias = fracoes / FRACOES_HORA; 
+            valorDeAcesso =  valorDeAcesso + horasCheias * FRACOES_HORA * valorFracao * (1 - (valorHoraCheia / 100));
         }
 
         valorApurado += valorDeAcesso;
