@@ -6,10 +6,10 @@ public class Estacionamento {
     private float valorFracao;
     private float valorHoraCheia;
     private float valorDiariaDiurna;
-    private float valorDiariaNoturna;
+	private float valorDiariaNoturna;
     private String inicioDiariaNoturna, fimDiariaNoturna;
     private float valorAcessoMensalista;
-    private float valorAcessoEvento;
+	private float valorAcessoEvento;
     private String inicioFuncionamento, fimFuncionamento;
     private int capacidade;
     private float retornoContratante;
@@ -67,7 +67,7 @@ public class Estacionamento {
             numeroAcessos = 0;
     }
     
-    private void validarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, CapacidadeException, HorarioInvalidoException {
+    public void validarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, CapacidadeException, HorarioInvalidoException {
         validarCadastro(placa, horaEntrada, horaSaida);
         
         validarCapacidade();
@@ -109,7 +109,7 @@ public class Estacionamento {
 
     }
 
-    private int calcularMinutos(String hora) {
+    public int calcularMinutos(String hora) {
         return Integer.parseInt(hora.split(":")[0]) * 60 + Integer.parseInt(hora.split(":")[1]);
     }
 
@@ -117,7 +117,7 @@ public class Estacionamento {
         return (minutosSaida - minutosEntrada) / 15;
     }
 
-    private boolean checarMensalista(String placa) {
+    public boolean checarMensalista(String placa) {
         if(mensalistas.contains(placa)) {
             valorApurado += valorAcessoMensalista;
             return true;
@@ -125,7 +125,7 @@ public class Estacionamento {
         return false;
     }
 
-    private boolean checarAcessoNoturno(int minutosEntrada, int minutosSaida) {
+    public boolean checarAcessoNoturno(int minutosEntrada, int minutosSaida) {
         int minutosInicioNoturna = calcularMinutos(inicioDiariaNoturna);
         int minutosFimNoturna = calcularMinutos(fimDiariaNoturna);
 
@@ -137,7 +137,7 @@ public class Estacionamento {
         return false; 
     }
 
-    private boolean checarAcessoDiurno(int minutosEntrada, int minutosSaida ) {
+    public boolean checarAcessoDiurno(int minutosEntrada, int minutosSaida ) {
         int totalMinutos;
 
         if(minutosSaida < minutosEntrada) {
@@ -154,7 +154,7 @@ public class Estacionamento {
         return false;
     }
 
-    private float calcularValorAcessoNoturno() {
+    public float calcularValorAcessoNoturno() {
         return valorDiariaDiurna * valorDiariaNoturna / 100;
     }
 
@@ -162,7 +162,7 @@ public class Estacionamento {
         return (fracoes % 4) * valorFracao;
     }
 
-    private float cadastrarAcessoFracao(int minutosEntrada, int minutosSaida) {
+    public float cadastrarAcessoFracao(int minutosEntrada, int minutosSaida) {
         int fracoes = calcularFracoes(minutosEntrada, minutosSaida);
         float valorDeAcesso = calcularValorFracaoTempo(fracoes);
         
@@ -176,24 +176,7 @@ public class Estacionamento {
     }
 
     public float cadastrarAcesso(String placa, String horaEntrada, String horaSaida) throws DescricaoEmBrancoException, HorarioInvalidoException, CapacidadeException {
-        validarAcesso(placa, horaEntrada, horaSaida);
-
-        int minutosEntrada = calcularMinutos(horaEntrada);
-        int minutosSaida = calcularMinutos(horaSaida);
-        
-        if(checarMensalista(placa)) {
-            return valorAcessoMensalista;
-        }
-
-        if(checarAcessoNoturno(minutosEntrada, minutosSaida)) {
-            return calcularValorAcessoNoturno();
-        }
-
-        if(checarAcessoDiurno(minutosEntrada, minutosSaida)) {
-            return valorDiariaDiurna;
-        }
-
-        return cadastrarAcessoFracao(minutosEntrada, minutosSaida);
+        return new CadastroAcesso(placa, horaEntrada, horaSaida, this).computar();
     }
 
     public float cadastrarAcessoEvento(String placa, String horaEntrada, String horaSaida) throws CapacidadeException, DescricaoEmBrancoException {
@@ -222,5 +205,14 @@ public class Estacionamento {
 	public float getValorApurado() {
 		return valorApurado * retornoContratante/100;
 	}
+
+    public float getValorDiariaDiurna() {
+		return valorDiariaDiurna;
+	}
+
+    public float getValorAcessoMensalista() {
+		return valorAcessoMensalista;
+	}
+
         
 }
