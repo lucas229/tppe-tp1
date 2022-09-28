@@ -8,12 +8,11 @@ TPPE - Técnicas de Programação para Plataformas Emergentes
 
 | Caracteristica | Descrição (7ptos) | Relação com mau-cheiro (7ptos) | Operações de refatoração (6ptos)|
 |----------------|-------------------|--------------------------------|--------------------------------|
-|                | Ñ-Ok | Ñ-Ok | Ñ-Ok |
-|                | Ñ-Ok | Ñ-Ok | Ñ-Ok |
-|                | Ñ-Ok | Ñ-Ok | Ñ-Ok |
-|                | Ñ-Ok | Ñ-Ok | Ñ-Ok |
-|                | Ñ-Ok | Ñ-Ok | Ñ-Ok |
+|Simplicidade    |   Ok |   Ok |   Ok |
+|Aus duplicidade |   Ok |   Ok |   Ok |
+|Extensibilidade |   Ok |   Ok |   Ok |
+|Boas interfaces |   Ok |   Ok |   Ok |
+|Elegância       |   Ok |   Ok |   Ok |
 
-Obs.: não foram encontrados artefatos relativos ao TP3. 
 
-**NOTA FINAL:** 00/100 pontos.
+**NOTA FINAL:** 100/100 pontos.
